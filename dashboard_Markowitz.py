@@ -77,12 +77,6 @@ def get_data(tickers, start, end):
 # Descargar los datos y mostrar tabla
 data = get_data(tickers, fecha_inicio, fecha_fin)
 
-
-if tickers_sin_datos:
-    st.warning(f"⚠️ No se encontraron datos suficientes para los siguientes tickers en el periodo seleccionado: {', '.join(tickers_sin_datos)}")
-
-st.subheader("📊 Precios ajustados")
-
 st.subheader("📊 Precios ajustados")
 st.dataframe(data.tail())
 
