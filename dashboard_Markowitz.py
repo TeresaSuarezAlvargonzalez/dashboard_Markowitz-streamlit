@@ -40,7 +40,7 @@ tickers_input = st.text_area("Introduce los tickers separados por coma:", "PLTR,
 tickers = [ticker.strip().upper() for ticker in tickers_input.split(",") if ticker.strip()]
 
 # Selector para elegir años (1 a 20)
-años = st.slider("Selecciona el número de años para el rango:", min_value=1, max_value=20)
+años = st.slider("Selecciona el número de años para el rango:", min_value=1, max_value=20, value=4)
 
 fecha_fin = date.today()
 fecha_inicio = fecha_fin - relativedelta(years=años)
@@ -71,6 +71,17 @@ def get_data(tickers, start, end):
 
 # Descargar los datos y mostrar tabla
 data = get_data(tickers, fecha_inicio, fecha_fin)
+# Descargar los datos y mostrar tabla
+data = get_data(tickers, fecha_inicio, fecha_fin)
+
+# Comprobar si algún ticker fue descartado por falta de datos
+tickers_con_datos = data.columns.tolist()
+tickers_sin_datos = [ticker for ticker in tickers if ticker not in tickers_con_datos]
+
+if tickers_sin_datos:
+    st.warning(f"⚠️ No se encontraron datos suficientes para los siguientes tickers en el periodo seleccionado: {', '.join(tickers_sin_datos)}")
+
+st.subheader("📊 Precios ajustados")
 
 st.subheader("📊 Precios ajustados")
 st.dataframe(data.tail())
