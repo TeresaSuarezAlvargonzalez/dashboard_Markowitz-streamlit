@@ -61,22 +61,22 @@ def get_data(tickers, start, end):
             except KeyError:
                 st.warning(f"⚠️ No se encontraron datos de 'Adj Close' para {ticker}")
         df_adj_close = pd.DataFrame(adj_close)
-        return df_adj_close.dropna(axis=1, how='all')  # Elimina columnas completamente vacías
+
+        # Rellenar NaN hacia adelante y hacia atrás
+        df_adj_close = df_adj_close.ffill().bfill()
+
+        return df_adj_close
     else:
         # Para el caso de un solo ticker
         if 'Adj Close' in data.columns:
-            return data['Adj Close'].to_frame(name=tickers[0])
+            df = data['Adj Close'].to_frame(name=tickers[0])
+            return df.ffill().bfill()
         else:
             raise ValueError("No se encontró 'Adj Close' en los datos descargados.")
 
 # Descargar los datos y mostrar tabla
 data = get_data(tickers, fecha_inicio, fecha_fin)
-# Descargar los datos y mostrar tabla
-data = get_data(tickers, fecha_inicio, fecha_fin)
 
-# Comprobar si algún ticker fue descartado por falta de datos
-tickers_con_datos = data.columns.tolist()
-tickers_sin_datos = [ticker for ticker in tickers if ticker not in tickers_con_datos]
 
 if tickers_sin_datos:
     st.warning(f"⚠️ No se encontraron datos suficientes para los siguientes tickers en el periodo seleccionado: {', '.join(tickers_sin_datos)}")
