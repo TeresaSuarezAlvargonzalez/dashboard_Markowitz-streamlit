@@ -293,8 +293,7 @@ for i in range(1, 5):
     fig.update_xaxes(visible=False, row=(i-1)//2+1, col=(i-1)%2+1)
     fig.update_yaxes(showgrid=False, row=(i-1)//2+1, col=(i-1)%2+1)
 
-for annotation in fig['layout']['annotations']:
-    annotation['font'] = dict(color='white', size=20, family='Arial', weight='bold')
+
 
 st.subheader("📉 Comparación Visual de Métricas Financieras")
 st.plotly_chart(fig, use_container_width=True)
