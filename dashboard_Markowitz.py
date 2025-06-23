@@ -40,7 +40,7 @@ tickers_input = st.text_area("Introduce los tickers separados por coma:", "PLTR,
 tickers = [ticker.strip().upper() for ticker in tickers_input.split(",") if ticker.strip()]
 
 # Selector para elegir años (1 a 20)
-años = st.slider("Selecciona el número de años para el rango:", min_value=1, max_value=20, value=4)
+años = st.slider("Selecciona el número de años para el rango:", min_value=1, max_value=20)
 
 fecha_fin = date.today()
 fecha_inicio = fecha_fin - relativedelta(years=años)
